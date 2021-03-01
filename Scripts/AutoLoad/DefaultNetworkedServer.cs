@@ -4,33 +4,18 @@ using Godot.Collections;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {
-    public class DefaultNetworkedServer : Node
+    public abstract class DefaultNetworkedServer : Node
     {
-
-        protected static DefaultNetworkedServer singleton;
-        public static DefaultNetworkedServer Singleton => singleton;
         private NetworkedMultiplayerENet serverPeer;
 
 
         protected DefaultNetworkedServer()
         {
-            singleton = this;
-
             serverPeer = new NetworkedMultiplayerENet();
         }
 
-        public override void _EnterTree()
+        protected void CreateServer(int port, int maxClients)
         {
-            SetupDTLS();
-            ValidateEnvironmentVariables();
-            GetTree().Connect("network_peer_connected", this, nameof(PeerConnected));
-            GetTree().Connect("network_peer_disconnected", this, nameof(PeerDisconnected));
-        }
-
-        public override void _Ready()
-        {
-            var port = DefaultServerConfiguration.Singleton.GetPort(defaultPort: 4444);
-            var maxClients = DefaultServerConfiguration.Singleton.GetMaxClients(defaultMaxClients: 2);
             serverPeer.CreateServer(port, maxClients);
             GetTree().NetworkPeer = serverPeer;
         }
@@ -46,7 +31,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
         }
 
         /// Loads and sets certificate and key for ENet connection.
-        private void SetupDTLS()
+        protected void SetupDTLS()
         {
             serverPeer.DtlsVerify = false;
             serverPeer.UseDtls = true;
@@ -88,7 +73,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             return dir.DirExists(path);
         }
         
-        private void ValidateEnvironmentVariables()
+        protected void ValidateEnvironmentVariables()
         {
             var environmentVariables = new[] { "GATEWAY_TOKEN", "GAME_SERVER_TOKEN" };
             foreach (var environmentVariable in environmentVariables)
@@ -99,16 +84,6 @@ namespace NightFallServersUtils.Scripts.AutoLoad
                     GetTree().Quit(-(int)Error.PrinterOnFire);
                 }
             }
-        }
-
-        private void PeerConnected(int id)
-        {
-            Logger.Server.Info($"Peer {id} has connected");
-        }
-
-        private void PeerDisconnected(int id)
-        {
-            Logger.Server.Info($"Peer {id} has diconnected");
         }
     }
 }

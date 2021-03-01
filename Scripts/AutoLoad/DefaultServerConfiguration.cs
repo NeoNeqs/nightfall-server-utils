@@ -2,11 +2,8 @@ using Godot;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {
-    public class DefaultServerConfiguration : Node
+    public abstract class DefaultServerConfiguration : Node
     {
-        public static DefaultServerConfiguration Singleton => _singleton;
-        protected static DefaultServerConfiguration _singleton;
-
         private const string Path = "user://config/config.ini";
         private readonly ConfigFile _configFile;
         private bool _isLoaded;
@@ -14,7 +11,6 @@ namespace NightFallServersUtils.Scripts.AutoLoad
 
         protected DefaultServerConfiguration()
         {
-            _singleton = this;
             _configFile = new ConfigFile();
             LoadConfiguration();
         }
@@ -50,7 +46,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             return GetValue<int>("NETWORKING", "port", defaultPort);
         }
 
-        public virtual int GetMaxClients(int defaultMaxClients)
+        public int GetMaxClients(int defaultMaxClients)
         {
             return GetValue<int>("NETWORKING", "max_clients", defaultMaxClients);
         }
