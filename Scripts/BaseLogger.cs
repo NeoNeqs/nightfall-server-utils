@@ -17,6 +17,7 @@ namespace NightFallAuthenticationServer.Scripts
         private Level _currentLevel;
         private readonly LoggerFile _loggerFile;
         private readonly string _moduleName;
+        
         public BasicLogger(ref LoggerFile loggerFile, string moduleName)
         {
             _loggerFile = loggerFile;

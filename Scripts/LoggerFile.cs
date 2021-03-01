@@ -88,8 +88,14 @@ namespace NightFallAuthenticationServer.Scripts
         {
             var fullFilePath = path.PlusFile(FileName);
             if (!_fileHandle.FileExists(fullFilePath)) return;
-            var date = GetCurrentLocalDateTimeFromUnixTime(_fileHandle.GetModifiedTime(fullFilePath));
 
+            _fileHandle.Open(fullFilePath, File.ModeFlags.Read);
+            var length = _fileHandle.GetLen();
+            _fileHandle.Close();
+
+            if (length == 0) return;
+            
+            var date = GetCurrentLocalDateTimeFromUnixTime(_fileHandle.GetModifiedTime(fullFilePath));
             var year = date.Year;
             var month = date.Month.ToString().PadLeft(2, '0');
             var day = date.Day.ToString().PadLeft(2, '0');
