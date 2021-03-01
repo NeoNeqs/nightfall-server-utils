@@ -4,15 +4,15 @@ using Godot.Collections;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {
-    public sealed class Server : Node
+    public class DefaultNetworkedServer : Node
     {
 
-        private static Server singleton;
-        public static Server Singleton => singleton;
+        private static DefaultNetworkedServer singleton;
+        public static DefaultNetworkedServer Singleton => singleton;
         private NetworkedMultiplayerENet serverPeer;
 
 
-        public Server()
+        public DefaultNetworkedServer()
         {
             singleton = this;
 
@@ -29,10 +29,9 @@ namespace NightFallServersUtils.Scripts.AutoLoad
 
         public override void _Ready()
         {
-            var port = Configuration.Singleton.GetPort(defaultPort: 4444);
-            var numberOfGameWorlds = Configuration.Singleton.GetMaxGameWorlds(defaultMaxGameWorlds: 1);
-            var numberOfGateways = Configuration.Singleton.GetMaxGateways(defaultMaxGateways: 1);
-            serverPeer.CreateServer(port, numberOfGameWorlds + numberOfGateways);
+            var port = DefaultServerConfiguration.Singleton.GetPort(defaultPort: 4444);
+            var maxClients = DefaultServerConfiguration.Singleton.GetMaxClients(defaultMaxClients: 2);
+            serverPeer.CreateServer(port, maxClients);
             GetTree().NetworkPeer = serverPeer;
         }
 
@@ -59,7 +58,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
                 var error = x509Cert.Load(certificateFile);
                 if (error != Error.Ok)
                 {
-                    Logger.Error($"Could not load certificate file {ProjectSettings.GlobalizePath(certificateFile)}. Error code: {error}");
+                    Logger.Server.Error($"Could not load certificate file {ProjectSettings.GlobalizePath(certificateFile)}. Error code: {error}");
                     GetTree().Quit(-(int)error);
                     return;
                 }
@@ -70,7 +69,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
                 error = cryptoKey.Load(keyFile);
                 if (error != Error.Ok)
                 {
-                    Logger.Error($"Could not load key file {ProjectSettings.GlobalizePath(keyFile)}. Error code: {error}");
+                    Logger.Server.Error($"Could not load key file {ProjectSettings.GlobalizePath(keyFile)}. Error code: {error}");
                     GetTree().Quit(-(int)error);
                     return;
                 }
@@ -78,7 +77,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             }
             else
             {
-                Logger.Error($"Directory {ProjectSettings.GlobalizePath(pathToDTLS)} doesn't exist!. Abording");
+                Logger.Server.Error($"Directory {ProjectSettings.GlobalizePath(pathToDTLS)} doesn't exist!. Abording");
                 GetTree().Quit(-(int)Error.FileBadPath);
             }
         }
@@ -96,7 +95,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             {
                 if (OS.GetEnvironment(environmentVariable).Length == 0)
                 {
-                    Logger.Error($"Environment varianle {environmentVariable} is not set. Abording...");
+                    Logger.Server.Error($"Environment varianle {environmentVariable} is not set. Abording...");
                     GetTree().Quit(-(int)Error.PrinterOnFire);
                 }
             }

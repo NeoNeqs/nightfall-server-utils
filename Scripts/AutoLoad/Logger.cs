@@ -1,5 +1,5 @@
-
 using Godot;
+using NightFallAuthenticationServer.Scripts;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {

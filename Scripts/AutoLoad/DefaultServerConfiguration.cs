@@ -3,17 +3,17 @@ using Godot;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {
-    public sealed class ServerConfiguration : Node
+    public class DefaultServerConfiguration : Node
     {
-        public static Configuration Singleton => _singleton;
-        private static Configuration _singleton;
+        public static DefaultServerConfiguration Singleton => _singleton;
+        protected static DefaultServerConfiguration _singleton;
 
         private const string Path = "user://config/config.ini";
         private readonly ConfigFile _configFile;
         private bool _isLoaded;
 
 
-        private Configuration()
+        protected DefaultServerConfiguration()
         {
             _singleton = this;
             _configFile = new ConfigFile();
@@ -34,16 +34,26 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             _isLoaded = true;
         }
 
-        private T GetValue<T>(string section, string key, T @default)
+        protected T GetValue<T>(string section, string key, T @default)
         {
             if (!_isLoaded) return @default;
             return (T)_configFile.GetValue(section, key, @default);
         }
 
-        private void SetValue<T>(string section, string key, T value)
+        protected void SetValue<T>(string section, string key, T value)
         {
             if (!_isLoaded) return;
-            return _configFile.SetValue(section, key, value);
+            _configFile.SetValue(section, key, value);
+        }
+
+        public int GetPort(int defaultPort)
+        {
+            return GetValue<int>("NETWORKING", "port", defaultPort);
+        }
+
+        public virtual int GetMaxClients(int defaultMaxClients)
+        {
+            return GetValue<int>("NETWORKING", "max_clients", defaultMaxClients);
         }
 
         private void MakeDirRecursive()
