@@ -3,7 +3,7 @@ using NightFallAuthenticationServer.Scripts;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {
-    public sealed class DefaultLogger : Node
+    public sealed class Logger : Node
     {
         // one instance of LoggerFile for every Logger instance just in case
         private static LoggerFile _loggerFile = new LoggerFile("user://logs/");
