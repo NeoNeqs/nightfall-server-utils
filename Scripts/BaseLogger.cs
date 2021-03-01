@@ -28,6 +28,7 @@ namespace NightFallAuthenticationServer.Scripts
         // Format: `[ModuleName][HH:MM:SS ErrorLevel]: output`
         private void Put(Level level, string output)
         {
+            if (level < _currentLevel) return;
             _loggerFile.Write($"[{_moduleName}][{GetTime()} {level.ToString("g").ToUpper()}]: {output}");
         }
 

@@ -1,12 +1,11 @@
 using Godot;
-using Godot.Collections;
 
 
 namespace NightFallServersUtils.Scripts.AutoLoad
 {
     public abstract class DefaultNetworkedServer : Node
     {
-        private NetworkedMultiplayerENet serverPeer;
+        private readonly NetworkedMultiplayerENet serverPeer;
 
 
         protected DefaultNetworkedServer()
