@@ -7,12 +7,12 @@ namespace NightFallServersUtils.Scripts.AutoLoad
     public class DefaultNetworkedServer : Node
     {
 
-        private static DefaultNetworkedServer singleton;
+        protected static DefaultNetworkedServer singleton;
         public static DefaultNetworkedServer Singleton => singleton;
         private NetworkedMultiplayerENet serverPeer;
 
 
-        public DefaultNetworkedServer()
+        protected DefaultNetworkedServer()
         {
             singleton = this;
 
