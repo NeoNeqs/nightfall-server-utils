@@ -1,4 +1,3 @@
-using NightFallAuthenticationServer.Scripts.AutoLoad;
 using Godot;
 
 namespace NightFallServersUtils.Scripts.AutoLoad
