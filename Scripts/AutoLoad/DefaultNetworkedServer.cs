@@ -44,7 +44,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             if (DirExists(pathToDTLS))
             {
                 var x509Cert = new X509Certificate();
-                var certificateFile = pathToDTLS.PlusFile("basic.crt");
+                var certificateFile = pathToDTLS.PlusFile("main.crt");
                 var error = x509Cert.Load(certificateFile);
                 if (error != Error.Ok)
                 {
@@ -55,7 +55,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
                 serverPeer.SetDtlsCertificate(x509Cert);
 
                 var cryptoKey = new CryptoKey();
-                var keyFile = pathToDTLS.PlusFile("basic.key");
+                var keyFile = pathToDTLS.PlusFile("main.key");
                 error = cryptoKey.Load(keyFile);
                 if (error != Error.Ok)
                 {
