@@ -13,6 +13,12 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             serverPeer = new NetworkedMultiplayerENet();
         }
 
+        public override void _EnterTree()
+        {
+            SetupDTLS();
+            ValidateEnvironmentVariables();
+        }
+
         protected void CreateServer(int port, int maxClients)
         {
             serverPeer.CreateServer(port, maxClients);
@@ -71,7 +77,7 @@ namespace NightFallServersUtils.Scripts.AutoLoad
             var dir = new Directory();
             return dir.DirExists(path);
         }
-        
+
         protected void ValidateEnvironmentVariables()
         {
             var environmentVariables = new[] { "GATEWAY_TOKEN", "GAME_SERVER_TOKEN" };
