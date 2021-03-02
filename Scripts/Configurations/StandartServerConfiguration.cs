@@ -2,11 +2,11 @@ using Godot;
 
 namespace NightFallServersUtils.Scripts.Configurations
 {
-    public abstract class ServerConfiguration : Configuration
+    public abstract class StandartServerConfiguration : Configuration
     {
         private const string Path = "user://config/config.ini";
        
-        protected ServerConfiguration() : base()
+        protected StandartServerConfiguration() : base()
         {
         }
 
