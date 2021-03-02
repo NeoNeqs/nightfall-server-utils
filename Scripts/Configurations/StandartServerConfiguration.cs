@@ -2,9 +2,8 @@ using Godot;
 
 namespace NightFallServersUtils.Scripts.Configurations
 {
-    public abstract class StandartServerConfiguration : Configuration
+    public abstract class StandartServerConfiguration : StandartConfiguration
     {
-        private const string Path = "user://config/config.ini";
        
         protected StandartServerConfiguration() : base()
         {
@@ -12,12 +11,7 @@ namespace NightFallServersUtils.Scripts.Configurations
 
         public override void _EnterTree()
         {
-            LoadConfiguration(Path);
-        }
-
-        public int GetPort(int defaultPort)
-        {
-            return GetValue<int>("NETWORKING", "port", defaultPort);
+            LoadConfiguration();
         }
 
         public int GetMaxClients(int defaultMaxClients)
@@ -27,7 +21,7 @@ namespace NightFallServersUtils.Scripts.Configurations
 
         public override void _ExitTree()
         {
-            SaveConfiguration(Path);
+            SaveConfiguration();
         }
     }
 }

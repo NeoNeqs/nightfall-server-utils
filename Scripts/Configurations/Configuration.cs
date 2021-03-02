@@ -7,6 +7,9 @@ namespace NightFallServersUtils.Scripts.Configurations
     public abstract class Configuration : Node
     {
         private readonly ConfigFile _configFile;
+        private string path = "user://config/config.ini";
+
+        protected string Path { set; get; }
         private bool _isLoaded;
 
 
@@ -15,7 +18,7 @@ namespace NightFallServersUtils.Scripts.Configurations
             _configFile = new ConfigFile();
         }
 
-        protected void LoadConfiguration(string path)
+        protected void LoadConfiguration()
         {
             DirectoryUtils.MakeDirRecursive(path);
             FileUtils.CreateFileIfNotExists(path);
@@ -41,7 +44,7 @@ namespace NightFallServersUtils.Scripts.Configurations
             _configFile.SetValue(section, key, value);
         }
 
-        protected void SaveConfiguration(string path)
+        protected void SaveConfiguration()
         {
             if (!_isLoaded) return;
             var error = _configFile.Save(path);
