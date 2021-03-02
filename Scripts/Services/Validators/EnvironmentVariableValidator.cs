@@ -7,10 +7,7 @@ namespace NightFallServersUtils.Scripts.Services.Validators
 
         public Error IsValid(string toValidate)
         {
-            if (OS.GetEnvironment(toValidate).Length == 0)
-            {
-                return Error.PrinterOnFire;
-            }
+            if (OS.GetEnvironment(toValidate).Length == 0) return Error.PrinterOnFire;
             return Error.Ok;
         }
     }

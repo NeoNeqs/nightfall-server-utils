@@ -1,8 +1,9 @@
 using Godot;
 using NightFallServersUtils.Scripts.Logging;
+
 namespace NightFallServersUtils.Scripts.Services.Validators
 {
-    public class ValidatorService : Service
+    public sealed class ValidatorService : Service
     {
         public override void _Ready()
         {
@@ -17,7 +18,7 @@ namespace NightFallServersUtils.Scripts.Services.Validators
                 var isValidEror = validable.IsValid(environmentVariable);
                 if (isValidEror != Error.Ok)
                 {
-                    Logger.Server.Error($"Environment varianle {environmentVariable} is not set. Abording...");
+                    Logger.Server.Error($"Environment variable {environmentVariable} is not set. Abording...");
                     Quit((int)isValidEror);
                 }
             }

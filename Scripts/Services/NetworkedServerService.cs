@@ -41,6 +41,7 @@ namespace NightFallServersUtils.Scripts.Services
         {
             serverPeer.DtlsVerify = false;
             serverPeer.UseDtls = true;
+            
             var pathToDTLS = "user://DTLS";
             if (DirectoryUtils.DirExists(pathToDTLS))
             {
