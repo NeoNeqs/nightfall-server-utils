@@ -16,5 +16,11 @@ namespace NightFallServersUtils.Scripts.Common
             var baseDir = path.GetBaseDir();
             if (!dir.DirExists(baseDir)) dir.MakeDirRecursive(baseDir);
         }
+
+        public static void Rename(string from, string to)
+        {
+            var dir = new Directory();
+            dir.Rename(from, to);
+        }
     }
 }
