@@ -13,5 +13,18 @@ namespace NightFallServersUtils.Scripts.Common
             }
             file.Close();
         }
+
+        public static long GetLength(string pathToFile)
+        {
+            var file = new File();
+            if (file.FileExists(pathToFile))
+            {
+                file.Open(pathToFile, File.ModeFlags.Read);
+                var length = file.GetLen();
+                file.Close();
+                return length;
+            }
+            return -1L;
+        }
     }
 }
