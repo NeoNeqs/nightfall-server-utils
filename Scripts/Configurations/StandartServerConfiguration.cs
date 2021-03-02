@@ -1,6 +1,6 @@
-using Godot;
+using SharedUtils.Scripts.Configurations;
 
-namespace NightFallServersUtils.Scripts.Configurations
+namespace ServersUtils.Scripts.Configurations
 {
     public abstract class StandartServerConfiguration : StandartConfiguration
     {

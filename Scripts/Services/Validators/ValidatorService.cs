@@ -1,7 +1,12 @@
 using Godot;
-using NightFallServersUtils.Scripts.Logging;
 
-namespace NightFallServersUtils.Scripts.Services.Validators
+using ServersUtils.Scripts.Logging;
+
+using SharedUtils.Scripts.Services;
+using SharedUtils.Scripts.Services.Validators;
+
+
+namespace ServersUtils.Scripts.Services.Validators
 {
     public sealed class ValidatorService : Service
     {
@@ -19,7 +24,7 @@ namespace NightFallServersUtils.Scripts.Services.Validators
                 if (isValidEror != Error.Ok)
                 {
                     Logger.Server.Error($"Environment variable {environmentVariable} is not set. Abording...");
-                    Quit((int)isValidEror);
+                    QuitOnError((int)isValidEror);
                 }
             }
         }

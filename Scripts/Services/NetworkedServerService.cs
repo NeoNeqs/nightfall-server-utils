@@ -1,9 +1,13 @@
 using Godot;
-using NightFallServersUtils.Scripts.Common;
-using NightFallServersUtils.Scripts.Loaders;
-using NightFallServersUtils.Scripts.Logging;
 
-namespace NightFallServersUtils.Scripts.Services
+using ServersUtils.Scripts.Loaders;
+using ServersUtils.Scripts.Logging;
+
+using SharedUtils.Scripts.Common;
+using SharedUtils.Scripts.Loaders;
+using SharedUtils.Scripts.Services;
+
+namespace ServersUtils.Scripts.Services
 {
     public abstract class NetworkedServerService : Service
     {
@@ -48,15 +52,15 @@ namespace NightFallServersUtils.Scripts.Services
                 Error error;
 
                 serverPeer.SetDtlsCertificate(X509CertificateLoader.Load(pathToDTLS, "ag.crt", out error));
-                Quit((int)error);
+                QuitOnError((int)error);
 
                 serverPeer.SetDtlsKey(CryptoKeyLoader.Load(pathToDTLS, "ag.key", out error));
-                Quit((int)error);
+                QuitOnError((int)error);
             }
             else
             {
                 Logger.Server.Error($"Directory {ProjectSettings.GlobalizePath(pathToDTLS)} doesn't exist!. Abording");
-                Quit((int)Error.FileBadPath);
+                QuitOnError((int)Error.FileBadPath);
             }
         }
     }

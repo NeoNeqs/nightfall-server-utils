@@ -1,6 +1,8 @@
 using Godot;
 
-namespace NightFallServersUtils.Scripts.Services.Validators
+using SharedUtils.Scripts.Services.Validators;
+
+namespace ServersUtils.Scripts.Services.Validators
 {
     public class EnvironmentVariableValidator : IValidable<string>
     {

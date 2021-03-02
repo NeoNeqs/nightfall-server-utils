@@ -1,8 +1,8 @@
-
 using Godot;
-using NightFallServersUtils.Scripts.Logging;
 
-namespace NightFallServersUtils.Scripts.Loaders
+using ServersUtils.Scripts.Logging;
+
+namespace ServersUtils.Scripts.Loaders
 {
     public sealed class CryptoKeyLoader
     {
