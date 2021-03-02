@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NightFallAuthenticationServer.Scripts
+namespace NightFallServersUtils.Scripts.Logging.Internal
 {
     public sealed class BasicLogger
     {
