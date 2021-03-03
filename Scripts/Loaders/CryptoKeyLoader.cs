@@ -11,10 +11,6 @@ namespace ServersUtils.Scripts.Loaders
             var cryptoKey = new CryptoKey();
             var keyFile = from.PlusFile(what);
             var error = cryptoKey.Load(keyFile);
-            if (error != Error.Ok)
-            {
-                ServerLogger.GetLogger.Error($"Could not load key file {ProjectSettings.GlobalizePath(keyFile)}. Error code: {error}");
-            }
             outError = error;
             return cryptoKey;
         }
