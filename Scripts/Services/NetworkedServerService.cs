@@ -1,33 +1,32 @@
 using Godot;
 
 using ServersUtils.Scripts.Loaders;
-using ServersUtils.Scripts.Logging;
 
-using SharedUtils.Scripts.Common;
 using SharedUtils.Scripts.Loaders;
 using SharedUtils.Scripts.Services;
 
 namespace ServersUtils.Scripts.Services
 {
-    public abstract class NetworkedServerService : Service
+    public abstract class NetworkedServerService : NetworkedPeerService
     {
-        private readonly NetworkedMultiplayerENet serverPeer;
+        private static NetworkedServerService _singleton;
+        public static NetworkedServerService Singleton => _singleton;
 
 
-        protected NetworkedServerService()
+        protected NetworkedServerService() : base()
         {
-            serverPeer = new NetworkedMultiplayerENet();
+            _singleton = this;
         }
 
         public override void _EnterTree()
         {
-            SetupDTLS();
+            base._EnterTree();
         }
 
         protected void CreateServer(int port, int maxClients)
         {
-            serverPeer.CreateServer(port, maxClients);
-            GetTree().NetworkPeer = serverPeer;
+            _peer.CreateServer(port, maxClients);
+            base.Create();
         }
 
         public int GetRpcSenderId()
@@ -37,31 +36,22 @@ namespace ServersUtils.Scripts.Services
 
         public void DisconnectPeer(int id, bool now = false)
         {
-            serverPeer.DisconnectPeer(id, now);
+            _peer.DisconnectPeer(id, now);
         }
 
         /// Loads and sets certificate and key for ENet connection.
-        protected void SetupDTLS()
+        protected override void SetupDTLS(string path)
         {
-            serverPeer.DtlsVerify = false;
-            serverPeer.UseDtls = true;
-            
-            var pathToDTLS = "user://DTLS";
-            if (DirectoryUtils.DirExists(pathToDTLS))
-            {
-                Error error;
+            base.SetupDTLS(path);
+            Error error;
 
-                serverPeer.SetDtlsCertificate(X509CertificateLoader.Load(pathToDTLS, "ag.crt", out error));
-                QuitOnError((int)error);
+            _peer.SetDtlsCertificate(X509CertificateLoader.Load(path, "ag.crt", out error));
+            QuitIfError((int)error);
 
-                serverPeer.SetDtlsKey(CryptoKeyLoader.Load(pathToDTLS, "ag.key", out error));
-                QuitOnError((int)error);
-            }
-            else
-            {
-                Logger.Server.Error($"Directory {ProjectSettings.GlobalizePath(pathToDTLS)} doesn't exist!. Abording");
-                QuitOnError((int)Error.FileBadPath);
-            }
+            _peer.SetDtlsKey(CryptoKeyLoader.Load(path, "ag.key", out error));
+            QuitIfError((int)error);
+
+            return;
         }
     }
 }
