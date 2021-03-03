@@ -8,7 +8,7 @@ using SharedUtils.Scripts.Services.Validators;
 
 namespace ServersUtils.Scripts.Services.Validators
 {
-    public sealed class ValidatorService : Service
+    public sealed class ValidatorService : Node
     {
         public override void _Ready()
         {
@@ -22,10 +22,9 @@ namespace ServersUtils.Scripts.Services.Validators
             {
                 var isValidEror = validable.IsValid(environmentVariable);
                 if (isValidEror != Error.Ok)
-                {
-                    ServerLogger.GetLogger().Error($"Environment variable {environmentVariable} is not set. Abording...");
-                    QuitIfError((int)isValidEror);
-                }
+#if DEBUG
+                    GD.PushError($"Environment variable {environmentVariable} is not set. Abording...");
+#endif
             }
         }
     }
