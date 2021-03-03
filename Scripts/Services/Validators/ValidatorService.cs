@@ -23,8 +23,8 @@ namespace ServersUtils.Scripts.Services.Validators
                 var isValidEror = validable.IsValid(environmentVariable);
                 if (isValidEror != Error.Ok)
                 {
-                    Logger.Server.Error($"Environment variable {environmentVariable} is not set. Abording...");
-                    QuitOnError((int)isValidEror);
+                    ServerLogger.GetLogger.Error($"Environment variable {environmentVariable} is not set. Abording...");
+                    QuitIfError((int)isValidEror);
                 }
             }
         }

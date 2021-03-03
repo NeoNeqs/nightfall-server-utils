@@ -13,7 +13,7 @@ namespace ServersUtils.Scripts.Loaders
             var error = cryptoKey.Load(keyFile);
             if (error != Error.Ok)
             {
-                Logger.Server.Error($"Could not load key file {ProjectSettings.GlobalizePath(keyFile)}. Error code: {error}");
+                ServerLogger.GetLogger.Error($"Could not load key file {ProjectSettings.GlobalizePath(keyFile)}. Error code: {error}");
             }
             outError = error;
             return cryptoKey;
