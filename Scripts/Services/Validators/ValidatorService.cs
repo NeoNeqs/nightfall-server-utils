@@ -1,8 +1,7 @@
 using Godot;
 
-using ServersUtils.Scripts.Logging;
 
-using SharedUtils.Scripts.Services;
+using SharedUtils.Scripts.Common;
 using SharedUtils.Scripts.Services.Validators;
 
 
@@ -21,7 +20,7 @@ namespace ServersUtils.Scripts.Services.Validators
             foreach (var environmentVariable in environmentVariables)
             {
                 var isValidEror = validable.IsValid(environmentVariable);
-                if (isValidEror != Error.Ok)
+                if (isValidEror != ErrorCode.Ok)
 #if DEBUG
                     GD.PushError($"Environment variable {environmentVariable} is not set. Abording...");
 #endif
