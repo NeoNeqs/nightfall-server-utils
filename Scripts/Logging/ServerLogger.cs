@@ -6,7 +6,7 @@ namespace ServersUtils.Scripts.Logging
     {
         // one instance of LoggerFile for every Logger instance just in case
         private static BasicLogger _server;
-        public static BasicLogger GetLogger => _server;
+        public static BasicLogger GetLogger() => _server;
 
         public ServerLogger() : base()
         {
