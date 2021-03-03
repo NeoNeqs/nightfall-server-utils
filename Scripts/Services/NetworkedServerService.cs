@@ -23,10 +23,11 @@ namespace ServersUtils.Scripts.Services
             base._EnterTree();
         }
 
-        protected void CreateServer(int port, int maxClients)
+        protected Error CreateServer(int port, int maxClients)
         {
-            _peer.CreateServer(port, maxClients);
+            var creationError = _peer.CreateServer(port, maxClients);
             base.Create();
+            return creationError;
         }
 
         public int GetRpcSenderId()
