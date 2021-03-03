@@ -9,19 +9,6 @@ namespace ServersUtils.Scripts.Services
 {
     public abstract class NetworkedServerService : NetworkedPeerService
     {
-        private static NetworkedServerService _singleton;
-        public static NetworkedServerService Singleton => _singleton;
-
-
-        protected NetworkedServerService() : base()
-        {
-            _singleton = this;
-        }
-
-        public override void _EnterTree()
-        {
-            base._EnterTree();
-        }
 
         protected Error CreateServer(int port, int maxClients)
         {
@@ -41,18 +28,28 @@ namespace ServersUtils.Scripts.Services
         }
 
         /// Loads and sets certificate and key for ENet connection.
-        protected override void SetupDTLS(string path)
+        protected override Error SetupDTLS(string path)
         {
-            base.SetupDTLS(path);
-            Error error;
+            Error error = base.SetupDTLS(path);
+            if (error != Error.Ok)
+            {
+                return error;
+            }
 
-            _peer.SetDtlsCertificate(X509CertificateLoader.Load(path, "ag.crt", out error));
-            QuitIfError((int)error);
-
-            _peer.SetDtlsKey(CryptoKeyLoader.Load(path, "ag.key", out error));
-            QuitIfError((int)error);
-
-            return;
+            _peer.SetDtlsCertificate(X509CertificateLoader.Load(path, GetCertificateName(), out error));
+            if (error != Error.Ok)
+            {
+                return error;
+            }
+            
+            _peer.SetDtlsKey(CryptoKeyLoader.Load(path, GetCryptoKeyName(), out error));
+            if (error != Error.Ok)
+            {
+                return error;
+            }
+            
+            return Error.Ok;
         }
+
     }
 }
