@@ -1,5 +1,8 @@
+using Godot;
+
 using ServersUtils.Scripts.Exceptions;
 using ServersUtils.Scripts.Loaders;
+using ServersUtils.Scripts.Logging;
 
 using SharedUtils.Scripts.Exceptions;
 using SharedUtils.Scripts.Common;
@@ -41,13 +44,17 @@ namespace ServersUtils.Scripts.Services
             _peer.SetDtlsCertificate(X509CertificateLoader.Load(path, GetCertificateName(), out error));
             if (error != ErrorCode.Ok)
             {
-                throw new X509CertificateNotFoundException(path);
+                var errorMessage = $"Failed to load x509 certificate from '{path.PlusFile(GetCertificateName())}'";
+                ServerLogger.GetSingleton().Error(errorMessage);
+                throw new X509CertificateNotFoundException(errorMessage);
             }
 
             _peer.SetDtlsKey(CryptoKeyLoader.Load(path, GetCryptoKeyName(), out error));
             if (error != ErrorCode.Ok)
             {
-                throw new CryptoKeyNotFoundException(path);
+                var errorMessage = $"Failed to load crypto key from '{path.PlusFile(GetCryptoKeyName())}'";
+                ServerLogger.GetSingleton().Error(errorMessage);
+                throw new CryptoKeyNotFoundException(errorMessage);
             }
 
         }
