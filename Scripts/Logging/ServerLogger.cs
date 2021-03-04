@@ -2,16 +2,14 @@ using SharedUtils.Scripts.Logging;
 
 namespace ServersUtils.Scripts.Logging
 {
-    public sealed class ServerLogger : Logger
+    public sealed class ServerLogger : BasicLogger
     {
         // one instance of LoggerFile for every Logger instance just in case
-        private static BasicLogger _server;
-        public static BasicLogger GetLogger() => _server;
+        private static ServerLogger _singleton = new ServerLogger();
+        public static ServerLogger GetSingleton() => _singleton;
 
-        public ServerLogger() : base()
+        public ServerLogger() : base("SERVER")
         {
-            // _loggerFile passed by reference to always write to the same file
-            _server = new BasicLogger(ref _loggerFile, "SERVER");
         }
     }
 }
