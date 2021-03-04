@@ -1,5 +1,6 @@
 using Godot;
 
+using ServersUtils.Scripts.Exceptions;
 
 using SharedUtils.Scripts.Common;
 using SharedUtils.Scripts.Services.Validators;
@@ -21,9 +22,7 @@ namespace ServersUtils.Scripts.Services.Validators
             {
                 var isValidEror = validable.IsValid(environmentVariable);
                 if (isValidEror != ErrorCode.Ok)
-#if DEBUG
-                    GD.PushError($"Environment variable {environmentVariable} is not set. Abording...");
-#endif
+                    throw new EnvironmentVariableNotSetException($"Environment variable {environmentVariable} is not set.");
             }
         }
     }
