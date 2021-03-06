@@ -11,12 +11,25 @@ using SharedUtils.Scripts.Services;
 
 namespace ServersUtils.Scripts.Services
 {
-    public abstract class NetworkedServerService : NetworkedPeerService
+    public abstract class NetworkedServer : NetworkedPeer
     {
-
-        protected NetworkedServerService() : base()
+        protected NetworkedServer() : base()
         {
         }
+
+        public override void _EnterTree()
+        {
+            base._EnterTree();
+            SetupDTLS();
+
+        }
+
+        public override void _Ready()
+        {
+            ConnectSignals();
+        }
+
+        public override void _Process(float delta) => base._Process(delta);
 
         protected ErrorCode CreateServer(int port, int maxClients)
         {
@@ -25,20 +38,15 @@ namespace ServersUtils.Scripts.Services
             return (ErrorCode)((int)creationError);
         }
 
-        public int GetRpcSenderId()
-        {
-            return GetTree().GetRpcSenderId();
-        }
+        public int GetRpcSenderId() => CustomMultiplayer.GetRpcSenderId();
 
-        public void DisconnectPeer(int id, bool now = false)
-        {
-            _peer.DisconnectPeer(id, now);
-        }
+        public void DisconnectPeer(int id, bool now = false) => _peer.DisconnectPeer(id, now);
 
         /// Loads and sets certificate and key for ENet connection.
-        protected override void SetupDTLS(string path)
+        private void SetupDTLS()
         {
-            base.SetupDTLS(path);
+            string path = "user://DTLS/";
+            SetupDTLS(path);
 
             ErrorCode error;
             _peer.SetDtlsCertificate(X509CertificateLoader.Load(path, GetCertificateName(), out error));
@@ -59,13 +67,14 @@ namespace ServersUtils.Scripts.Services
 
         }
 
+        protected override void ConnectSignals()
+        {
+            CustomMultiplayer.Connect("network_peer_connected", this, nameof(PeerConnected));
+            CustomMultiplayer.Connect("network_peer_disconnected", this, nameof(PeerDisconnected));
+        }
+
+        protected abstract string GetCryptoKeyName();
         protected abstract void PeerConnected(int id);
         protected abstract void PeerDisconnected(int id);
-
-        protected override void ConnectSignals(NetworkedPeerService to)
-        {
-            GetTree().Connect("network_peer_connected", to, nameof(PeerConnected));
-            GetTree().Connect("network_peer_disconnected", to, nameof(PeerDisconnected));
-        }
     }
 }
