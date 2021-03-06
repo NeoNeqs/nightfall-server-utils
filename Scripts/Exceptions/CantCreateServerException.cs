@@ -1,9 +1,10 @@
-using System;
+using SharedUtils.Scripts.Exceptions;
+
 namespace ServersUtils.Scripts.Exceptions
 {
-    public class CantCreateServerException : Exception
+    public class CantCreateServerException : NightFallException
     {
-        public CantCreateServerException(int port) : base($"Failed to create server on port '{port}'")
+        public CantCreateServerException(string message) : base(message)
         {
         }
     }
