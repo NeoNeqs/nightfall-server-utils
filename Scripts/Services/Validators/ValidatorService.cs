@@ -1,12 +1,12 @@
 using Godot;
 
-using ServersUtils.Scripts.Exceptions;
+using ServersUtils.Exceptions;
 
-using SharedUtils.Scripts.Common;
-using SharedUtils.Scripts.Services.Validators;
+using SharedUtils.Common;
+using SharedUtils.Services.Validators;
 
 
-namespace ServersUtils.Scripts.Services.Validators
+namespace ServersUtils.Services.Validators
 {
     public sealed class ValidatorService : Node
     {

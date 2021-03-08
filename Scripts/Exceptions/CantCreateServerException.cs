@@ -1,6 +1,6 @@
-using SharedUtils.Scripts.Exceptions;
+using SharedUtils.Exceptions;
 
-namespace ServersUtils.Scripts.Exceptions
+namespace ServersUtils.Exceptions
 {
     public class CantCreateServerException : NightFallException
     {

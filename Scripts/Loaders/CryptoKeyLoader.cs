@@ -1,8 +1,8 @@
 using Godot;
 
-using SharedUtils.Scripts.Common;
+using SharedUtils.Common;
 
-namespace ServersUtils.Scripts.Loaders
+namespace ServersUtils.Loaders
 {
     public sealed class CryptoKeyLoader
     {

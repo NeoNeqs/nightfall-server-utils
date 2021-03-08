@@ -1,15 +1,14 @@
 using Godot;
 
-using ServersUtils.Scripts.Exceptions;
-using ServersUtils.Scripts.Loaders;
-using ServersUtils.Scripts.Logging;
+using ServersUtils.Exceptions;
+using ServersUtils.Loaders;
 
-using SharedUtils.Scripts.Exceptions;
-using SharedUtils.Scripts.Common;
-using SharedUtils.Scripts.Loaders;
-using SharedUtils.Scripts.Services;
+using SharedUtils.Exceptions;
+using SharedUtils.Common;
+using SharedUtils.Loaders;
+using SharedUtils.Services;
 
-namespace ServersUtils.Scripts.Services
+namespace ServersUtils.Services
 {
     public abstract class NetworkedServer : NetworkedPeer
     {
@@ -53,7 +52,7 @@ namespace ServersUtils.Scripts.Services
             if (error != ErrorCode.Ok)
             {
                 var errorMessage = $"Failed to load x509 certificate from '{path.PlusFile(GetCertificateName())}'";
-                ServerLogger.GetSingleton().Error(errorMessage);
+                GD.LogError(errorMessage);
                 throw new X509CertificateNotFoundException(errorMessage);
             }
 
@@ -61,7 +60,7 @@ namespace ServersUtils.Scripts.Services
             if (error != ErrorCode.Ok)
             {
                 var errorMessage = $"Failed to load crypto key from '{path.PlusFile(GetCryptoKeyName())}'";
-                ServerLogger.GetSingleton().Error(errorMessage);
+                GD.LogError(errorMessage);
                 throw new CryptoKeyNotFoundException(errorMessage);
             }
 

@@ -1,6 +1,6 @@
-using SharedUtils.Scripts.Configurations;
+using SharedUtils.Configurations;
 
-namespace ServersUtils.Scripts.Configurations
+namespace ServersUtils.Configurations
 {
     public abstract class StandartServerConfiguration : StandartConfiguration
     {
