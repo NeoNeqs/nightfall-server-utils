@@ -3,9 +3,10 @@ using Godot;
 using ServersUtils.Exceptions;
 using ServersUtils.Loaders;
 
-using SharedUtils.Exceptions;
 using SharedUtils.Common;
+using SharedUtils.Exceptions;
 using SharedUtils.Loaders;
+using SharedUtils.Networking;
 using SharedUtils.Services;
 
 namespace ServersUtils.Services
@@ -72,6 +73,18 @@ namespace ServersUtils.Services
             CustomMultiplayer.Connect("network_peer_disconnected", this, nameof(PeerDisconnected));
         }
 
+        [Remote]
+        protected void OnPeerPacket(PacketType packetType, object arg1) => _PeerPacket(packetType, arg1);
+        [Remote]
+        protected void OnPeerPacket(PacketType packetType, object arg1, object arg2) => _PeerPacket(packetType, arg1, arg2);
+        [Remote]
+        protected void OnPeerPacket(PacketType packetType, object arg1, object arg2, object arg3) => _PeerPacket(packetType, arg1, arg2, arg3);
+        [Remote]
+        protected void OnPeerPacket(PacketType packetType, object arg1, object arg2, object arg3, object arg4) => _PeerPacket(packetType, arg1, arg2, arg3, arg4);
+        [Remote]
+        protected void OnPeerPacket(PacketType packetType, object arg1, object arg2, object arg3, object arg4, object arg5) => _PeerPacket(packetType, arg1, arg2, arg3, arg4, arg5);
+
+        protected abstract void _PeerPacket(PacketType packetType, params object[] args);
         protected abstract string GetCryptoKeyName();
         protected abstract void PeerConnected(int id);
         protected abstract void PeerDisconnected(int id);
