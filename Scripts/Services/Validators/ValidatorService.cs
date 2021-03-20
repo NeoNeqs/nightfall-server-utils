@@ -5,7 +5,6 @@ using ServersUtils.Exceptions;
 using SharedUtils.Common;
 using SharedUtils.Services.Validators;
 
-
 namespace ServersUtils.Services.Validators
 {
     public sealed class ValidatorService : Node
@@ -16,7 +15,7 @@ namespace ServersUtils.Services.Validators
             ValidateEnvironmentVariables(new EnvironmentVariableValidator(), environmentVariables);
         }
 
-        private void ValidateEnvironmentVariables(IValidable<string> validable, string[] environmentVariables)
+        private void ValidateEnvironmentVariables(IValidatable<string> validable, string[] environmentVariables)
         {
             foreach (var environmentVariable in environmentVariables)
             {

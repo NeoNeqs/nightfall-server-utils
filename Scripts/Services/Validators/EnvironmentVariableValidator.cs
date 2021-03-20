@@ -5,7 +5,7 @@ using SharedUtils.Services.Validators;
 
 namespace ServersUtils.Services.Validators
 {
-    public class EnvironmentVariableValidator : IValidable<string>
+    public class EnvironmentVariableValidator : IValidatable<string>
     {
         public ErrorCode IsValid(string toValidate)
         {
