@@ -44,6 +44,11 @@ namespace ServersUtils.Services
             return path;
         }
 
+        protected string GetIpAddressOfPeer(int id)
+        {
+            return _peer.GetPeerAddress(id);
+        }
+
         protected override void ConnectSignals()
         {
             CustomMultiplayer.Connect("network_peer_connected", this, nameof(PeerConnected));
