@@ -11,7 +11,7 @@ namespace ServersUtils.Configurations
 
         public int GetMaxClients(int defaultMaxClients)
         {
-            return GetValue<int>("NETWORKING", "max_clients", defaultMaxClients);
+            return GetValue("NETWORKING", "max_clients", defaultMaxClients);
         }
     }
 }
