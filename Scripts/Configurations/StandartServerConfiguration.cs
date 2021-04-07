@@ -1,8 +1,9 @@
+using Godot;
 using SharedUtils.Configurations;
 
 namespace ServersUtils.Configurations
 {
-    public abstract class StandartServerConfiguration : StandartConfiguration
+    public abstract class StandartServerConfiguration<T> : StandartConfiguration<T> where T : Node
     {
        
         protected StandartServerConfiguration() : base()

@@ -10,8 +10,11 @@ namespace ServersUtils.Services
 {
     public abstract class NetworkedServer<T> : NetworkedPeer<T> where T : Node
     {
-        protected NetworkedServer() : base() { }
+        protected int RpcSenderId => CustomMultiplayer.GetRpcSenderId();
 
+        protected string RpcSenderIp => GetIpAddressOfPeer(RpcSenderId);
+
+        protected NetworkedServer() : base() { }
 
         public override void _EnterTree()
         {
@@ -27,10 +30,14 @@ namespace ServersUtils.Services
         {
             var creationError = _peer.CreateServer(port, maxClients);
             base.Create();
-            return (ErrorCode)((int)creationError);
+            return (int)creationError;
         }
 
-        public void DisconnectPeer(int id, bool now = false) => _peer.DisconnectPeer(id, now);
+        // TODO: tell the peer why it got disconnected.
+        public void DisconnectPeer(int id, bool now = false) 
+        { 
+            _peer.DisconnectPeer(id, now); 
+        }
 
         /// Loads and sets certificate and key for ENet connection.
         protected override string SetupDTLS()
@@ -39,7 +46,7 @@ namespace ServersUtils.Services
 
             _peer.SetDtlsKey(CryptoKeyLoader.Load(path, GetCryptoKeyName(), out ErrorCode error));
             if (error != ErrorCode.Ok)
-                throw new CryptoKeyNotFoundException($"Failed to load crypto key from '{path.PlusFile(GetCryptoKeyName())}'");
+                throw new CryptoKeyNotFoundException(path.PlusFile(GetCryptoKeyName()));
 
             return path;
         }
