@@ -1,9 +1,8 @@
 using ServersUtils.Exceptions;
 
-using SharedUtils.Common;
-using SharedUtils.Services.Validators;
+using SharedUtils.Validation;
 
-namespace ServersUtils.Services.Validators
+namespace ServersUtils.Validation
 {
     public static class ValidatorService
     {
@@ -15,7 +14,7 @@ namespace ServersUtils.Services.Validators
 
                 if (!isValidEror)
                 {
-                    throw new EnvironmentVariableNotSetException($"Environment variable {environmentVariable} is not set.");
+                    throw new EnvironmentVariableNotSetException(environmentVariable);
                 }
             }
         }

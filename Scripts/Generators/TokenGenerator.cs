@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ServersUtils.Generators
 {
-    public class TokenGenerator
+    public sealed class TokenGenerator
     {
         public static string GetUniqueKey(int length)
         {

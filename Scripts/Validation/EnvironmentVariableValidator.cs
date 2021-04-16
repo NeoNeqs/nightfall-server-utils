@@ -1,9 +1,9 @@
 using Godot;
 
 using SharedUtils.Common;
-using SharedUtils.Services.Validators;
+using SharedUtils.Validation;
 
-namespace ServersUtils.Services.Validators
+namespace ServersUtils.Validation
 {
     public class EnvironmentVariableValidator : IValidatable<string>
     {

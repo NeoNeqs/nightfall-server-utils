@@ -11,7 +11,7 @@ namespace ServersUtils.Loaders
             var cryptoKey = new CryptoKey();
             var keyFile = from.PlusFile(what);
             var error = cryptoKey.Load(keyFile);
-            outError = (ErrorCode)((int)error);
+            outError = (int)error;
             return cryptoKey;
         }
 

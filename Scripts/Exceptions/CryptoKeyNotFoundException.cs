@@ -1,11 +1,9 @@
-using SharedUtils.Exceptions;
+using SharedUtils.Exception;
 
-namespace ServersUtils.Exceptions
+namespace ServersUtils.Exception
 {
     public class CryptoKeyNotFoundException : NightFallException
     {
-        public CryptoKeyNotFoundException(string path) : base($"Failed to load crypto key from '{path}'")
-        {
-        }        
+        public CryptoKeyNotFoundException(string path) : base($"Failed to load crypto key from '{path}'") { }        
     }
 }

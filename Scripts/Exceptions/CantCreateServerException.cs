@@ -1,11 +1,9 @@
-using SharedUtils.Exceptions;
+using SharedUtils.Exception;
 
-namespace ServersUtils.Exceptions
+namespace ServersUtils.Exception
 {
     public class CantCreateServerException : NightFallException
     {
-        public CantCreateServerException(string message) : base(message)
-        {
-        }
+        public CantCreateServerException(string message) : base(message) { }
     }
 }

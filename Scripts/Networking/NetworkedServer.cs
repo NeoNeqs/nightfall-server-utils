@@ -1,23 +1,22 @@
 using Godot;
 
-using ServersUtils.Exceptions;
+using ServersUtils.Exception;
 using ServersUtils.Loaders;
 
 using SharedUtils.Common;
 using SharedUtils.Logging;
 using SharedUtils.Networking;
-using SharedUtils.Services;
 
-namespace ServersUtils.Services
+namespace ServersUtils.Networking
 {
-    public abstract class NetworkedServer<T> : NetworkedPeer<T> where T : Node
+    public abstract class NetworkedServer : NetworkedPeer
     {
         protected int RpcSenderId => CustomMultiplayer.GetRpcSenderId();
         protected string RpcSenderIp => GetIpAddressOfPeer(RpcSenderId);
 
         protected override void Create()
         {
-            _ = _peer.CreateServer(GetPort());
+            _ = _peer.CreateServer(GetPort(), GetMaxClients());
         }
 
         // TODO: tell the peer why it got disconnected.
@@ -49,8 +48,6 @@ namespace ServersUtils.Services
             CustomMultiplayer.Connect("network_peer_disconnected", this, nameof(PeerDisconnected));
         }
 
-        protected abstract string GetCryptoKeyName();
-
         protected virtual void PeerConnected(int id)
         {
             Logger.Info($"Peer {id} has connected");
@@ -61,34 +58,11 @@ namespace ServersUtils.Services
             Logger.Info($"Peer {id} has disconnected");
         }
 
-        private void Send(int peerId, object[] args)
+        public new void Send(int peerId, object @object)
         {
-            _ = RpcId(peerId, nameof(PacketReceived), args);
+            base.Send(peerId, @object);
         }
 
-        protected void Send(int peerId, PacketType packetType, object arg1)
-        {
-            Send(peerId, new[] { packetType, arg1 });
-        }
-
-        protected void Send(int peerId, PacketType packetType, object arg1, object arg2)
-        {
-            Send(peerId, new[] { packetType, arg1, arg2 });
-        }
-
-        protected void Send(int peerId, PacketType packetType, object arg1, object arg2, object arg3)
-        {
-            Send(peerId, new[] { packetType, arg1, arg2, arg3 });
-        }
-
-        protected void Send(int peerId, PacketType packetType, object arg1, object arg2, object arg3, object arg4)
-        {
-            Send(peerId, new[] { packetType, arg1, arg2, arg3, arg4 });
-        }
-
-        protected void Send(int peerId, PacketType packetType, object arg1, object arg2, object arg3, object arg4, object arg5)
-        {
-            Send(peerId, new[] { packetType, arg1, arg2, arg3, arg4, arg5 });
-        }
+        protected abstract string GetCryptoKeyName();
     }
 }
