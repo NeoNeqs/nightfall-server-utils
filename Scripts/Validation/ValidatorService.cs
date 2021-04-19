@@ -1,5 +1,5 @@
 using ServersUtils.Exceptions;
-
+using SharedUtils.Common;
 using SharedUtils.Validation;
 
 namespace ServersUtils.Validation
@@ -8,9 +8,9 @@ namespace ServersUtils.Validation
     {
         public static void ValidateEnvironmentVariables(IValidatable<string> validable, string[] environmentVariables)
         {
-            foreach (var environmentVariable in environmentVariables)
+            foreach (string environmentVariable in environmentVariables)
             {
-                var isValidEror = validable.IsValid(environmentVariable);
+                ErrorCode isValidEror = validable.IsValid(environmentVariable);
 
                 if (!isValidEror)
                 {

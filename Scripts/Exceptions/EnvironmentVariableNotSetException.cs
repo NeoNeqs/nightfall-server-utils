@@ -7,6 +7,6 @@ namespace ServersUtils.Exceptions
         public EnvironmentVariableNotSetException(string environmentVariable) : base($"Environment variable {environmentVariable} is not set.")
         {
 
-        }        
+        }
     }
 }

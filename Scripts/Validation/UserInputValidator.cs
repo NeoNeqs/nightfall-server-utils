@@ -1,9 +1,7 @@
-using Godot;
 
 using SharedUtils.Common;
 using SharedUtils.Validation;
 
-using static SharedUtils.Factory.SharedSingletonFactory;
 
 namespace ServersUtils.Validation
 {
@@ -11,9 +9,9 @@ namespace ServersUtils.Validation
     {
         public ErrorCode IsValid(string toValidate)
         {
-            if (toValidate.Length > SharedGlobalDefinesInstance.MaxInputLength) return ErrorCode.DataTooLong;
-            string escaped = toValidate.CEscape();
-            foreach (char c in escaped)
+            if (toValidate.Length > GlobalDefines.MaxInputLength) return ErrorCode.DataTooLong;
+
+            foreach (char c in toValidate)
             {
                 if (c >= '!' && c <= '~') continue;
                 return ErrorCode.InvalidData;

@@ -9,7 +9,7 @@ using SharedUtils.Networking;
 
 namespace ServersUtils.Networking
 {
-    public abstract class NetworkedServer : NetworkedPeer
+    public abstract class NetworkedServer<T> : NetworkedPeer<T> where T : Node
     {
         protected int RpcSenderId => CustomMultiplayer.GetRpcSenderId();
         protected string RpcSenderIp => GetIpAddressOfPeer(RpcSenderId);
@@ -58,9 +58,14 @@ namespace ServersUtils.Networking
             Logger.Info($"Peer {id} has disconnected");
         }
 
-        public new void Send(int peerId, object @object)
+        public void Send(int peerId, Packet packet, object arg1)
         {
-            base.Send(peerId, @object);
+            Send(peerId, new[] { packet, arg1 });
+        }
+
+        private void Send(int peerId, object[] bytes)
+        {
+            _ = RpcId(peerId, nameof(PacketReceived), bytes);
         }
 
         protected abstract string GetCryptoKeyName();
